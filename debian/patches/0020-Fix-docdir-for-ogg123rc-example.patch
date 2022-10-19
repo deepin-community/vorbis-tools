@@ -1,0 +1,18 @@
+Description: Fix docdir for ogg123rc-example
+ The upstream build system installs into /usr/share/doc/vorbis-tools-1.4.0/
+ so drop the version number
+Author: Florian Schlichting <fsfs@debian.org>
+
+Index: vorbis-tools/ogg123/Makefile.am
+===================================================================
+--- vorbis-tools.orig/ogg123/Makefile.am
++++ vorbis-tools/ogg123/Makefile.am
+@@ -25,7 +25,7 @@ datadir = @datadir@
+ localedir = $(datadir)/locale
+ DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\" @DEFS@
+ 
+-docdir = $(datadir)/doc/$(PACKAGE)-$(VERSION)
++docdir = $(datadir)/doc/$(PACKAGE)
+ mandir = @MANDIR@
+ 
+ bin_PROGRAMS = ogg123

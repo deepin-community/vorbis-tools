@@ -1,0 +1,21 @@
+#! /usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@
+
+override_dh_strip:
+	# can be dropped after buster
+	dh_strip --dbgsym-migration='vorbis-tools-dbg (<< 1.4.0-11~)'
+
+#CFLAGS = -Wall -g -I/usr/include/speex
+
+# Run our test suite until the upstream source get one
+ifeq ($(filter nocheck,$(DEB_BUILD_OPTIONS)),)
+override_dh_auto_test:
+	dh_auto_test
+	for t in debian/tests/test-*; do \
+	    BUILDDIR=`pwd` $$t; \
+	done
+endif

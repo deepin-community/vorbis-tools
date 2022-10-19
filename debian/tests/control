@@ -1,0 +1,3 @@
+Tests: test-vcut-crash
+Depends: @, valgrind
+Restrictions: allow-stderr

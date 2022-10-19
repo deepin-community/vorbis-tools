@@ -1,0 +1,46 @@
+#!/bin/sh
+#
+# Test if bug #818037, segfault in vcut, still exist.
+
+RETVAL=0
+
+set -e
+set -x
+
+at_exit() {
+    set +x
+    echo "info: test exiting, removing $WORKDIR"
+    rm -rf $WORKDIR
+}
+WORKDIR=$(mktemp -d)
+trap at_exit INT TERM EXIT
+set -x
+
+cd $WORKDIR
+
+if type valgrind >/dev/null 2>&1 ; then
+    VALGRIND=valgrind
+fi
+
+VCUT=vcut
+if [ -x ${BUILDDIR}/vcut/vcut ] ; then
+    VCUT=${BUILDDIR}/vcut/vcut
+fi
+
+OGGENC=oggenc
+if [ -x ${BUILDDIR}/oggenc/oggenc ] ; then
+    OGGENC=${BUILDDIR}/oggenc/oggenc
+fi
+
+head -c 500000 /dev/zero | $OGGENC -Q -r -o 1.ogg -
+
+if $VALGRIND $VCUT 1.ogg 2.ogg 3.ogg +1 ; then
+    echo "success: vcut worked"
+else
+    echo "error: vcut didn't work."
+    RETVAL=1
+fi
+
+rm -f 1.ogg 2.ogg 3.ogg
+
+exit $RETVAL

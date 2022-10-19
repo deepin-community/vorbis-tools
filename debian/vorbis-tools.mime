@@ -1,0 +1,5 @@
+application/ogg; ogg123 %s; description="Ogg Vorbis multimedia format"; priority=5
+audio/ogg; ogg123 %s; description="Ogg Vorbis multimedia format"; priority=5
+application/ogg; ogginfo %s; copiousoutput; description="Ogg Vorbis multimedia format"; priority=1
+audio/ogg; ogginfo %s; copiousoutput; priority=1
+video/ogg; ogginfo %s; copiousoutput; priority=1
